@@ -22,4 +22,5 @@ phases:
 artifacts:
   files:
 #    - target/messageUtil-1.0.jar
+    - cp-update-template.json
   discard-paths: yes
