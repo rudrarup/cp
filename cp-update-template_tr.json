@@ -57,7 +57,7 @@
         },
         "ManagedPolicyArns": { "Fn::GetAtt" : ["AmazonS3FullAccess", "Arn"] },
       }
-    }
+    },
 
     "S3Bucket" : {
       "Type" : "AWS::S3::Bucket",
