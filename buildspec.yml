@@ -18,7 +18,7 @@ phases:
 #      - mvn install
   post_build:
     commands:
-      - aws cloudformation package --template /cp-update-template_tr.json --s3-bucket  update-poc-storage --output json > new_cp-update-template_tr.json
+      - aws cloudformation package --template cp-update-template_tr.json --s3-bucket  update-poc-storage --output json > new_cp-update-template_tr.json
       - echo Build completed on `date`
 artifacts:
   files:
