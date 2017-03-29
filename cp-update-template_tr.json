@@ -29,11 +29,11 @@
       "Resources" : {
           "LambdaOne": {
               "Type" : "AWS::Serverless::Function",
-	      "Properties" : {
-		"CodeUri" : "/lambda/",
-		"Handler" : myLambda.lambda_handler,
-		"Runtime" : python2.7,
-	      }
+              "Properties" : {
+                  "CodeUri" : "/lambda/",
+                  "Handler" : myLambda.lambda_handler,
+                  "Runtime" : python2.7,
+              }
           }
       }
   },
