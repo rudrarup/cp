@@ -18,10 +18,10 @@ phases:
 #      - mvn install
   post_build:
     commands:
-      - aws cloudformation package --template cp-update-template_tr.json --s3-bucket  update-poc-storage --output json > new_cp-update-template_tr.json
+      - aws cloudformation package --template cp-update-template_tr.yaml --s3-bucket  update-poc-storage --output > new_cp-update-template_tr.yaml
       - echo Build completed on `date`
 artifacts:
   files:
 #    - target/messageUtil-1.0.jar
-    - new_cp-update-template_tr.json
+    - new_cp-update-template_tr.yaml
   discard-paths: yes

@@ -55,7 +55,7 @@
             }
           ]
         },
-        "ManagedPolicyArns": { "Fn::GetAtt" : ["AWS::Policy::AmazonS3FullAccess", "Arn"] },
+        "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess"],
       }
     },
 

@@ -26,10 +26,50 @@
 
 
   "Resources" : {
+
+    "LambdaOneRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        }
+        "ManagedPolicyArns": { "Fn::GetAtt" : ["AmazonS3FullAccess", "Arn"] },
+      }
+    }
+
+    "LambdaOne" : {
+      "Type" : "AWS::Lambda::Function",
+      "Properties" : {
+        "Code" : {
+          "S3Bucket": "update-poc-storage",
+          "S3Key": "mylambda.zip"
+        },
+        "Handler" : myLambda.lambda_handler,
+        "Role" : { "Fn::GetAtt" : ["LambdaOneRole", "Arn"] },
+        "Runtime" : python2.7,
+      }
+    },
+
     "S3Bucket" : {
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "AccessControl" : "PublicRead",
+        "BucketName" : "cp-update-stack-s3",
+        "NotificationConfiguration" : {
+          "LambdaConfigurations" : [{
+            "Function" : { "Ref" : "LambdaOne" },
+            "Event" : "s3:ObjectCreated:*",
+          }]
+        }
         "WebsiteConfiguration" : {
           "IndexDocument" : "index.html",
           "ErrorDocument" : "error.html"      
