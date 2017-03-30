@@ -30,7 +30,7 @@
           "LambdaOne": {
               "Type" : "AWS::Serverless::Function",
               "Properties" : {
-                  "CodeUri" : "/lambda/",
+                  "CodeUri" : "lambda/",
                   "Handler" : myLambda.lambda_handler,
                   "Runtime" : python2.7,
               }
@@ -55,7 +55,7 @@
             }
           ]
         },
-        "ManagedPolicyArns": { "Fn::GetAtt" : ["AmazonS3FullAccess", "Arn"] },
+        "ManagedPolicyArns": { "Fn::GetAtt" : ["AWS::Policy::AmazonS3FullAccess", "Arn"] },
       }
     },
 
