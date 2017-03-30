@@ -1,0 +1,124 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS CloudFormation Sample Template S3_Website_Bucket_With_Retain_On_Delete:
+  Sample template showing how to create a publicly accessible S3 bucket configured
+  for website access with a deletion policy of retail on delete. **WARNING** This
+  template creates an S3 bucket that will NOT be deleted when the stack is deleted.
+  You will be billed for the AWS resources used if you create a stack from this template.
+  *** AWS CloudFormation Sample Template S3_Website_Bucket_With_Retain_On_Delete:
+  Sample template showing how to create a publicly accessible S3 bucket configured
+  for website access with a deletion policy of retail on delete. **WARNING** This
+  template creates an S3 bucket that will NOT be deleted when the stack is deleted.
+  You will be billed for the AWS resources used if you create a stack from this template.'
+Outputs:
+  S3BucketSecureURL:
+    Description: Name of S3 bucket to hold website content
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Fn::GetAtt:
+          - S3Bucket
+          - DomainName
+  TableName:
+    Description: Name of the newly created DynamoDB table
+    Value:
+      Ref: TableOfBooks
+  WebsiteURL:
+    Description: URL for website hosted on S3
+    Value:
+      Fn::GetAtt:
+      - S3Bucket
+      - WebsiteURL
+Parameters:
+  ReadCapacityUnits:
+    ConstraintDescription: must be between 5 and 10000
+    Default: '5'
+    Description: Provisioned read throughput
+    MaxValue: '10000'
+    MinValue: '5'
+    Type: Number
+  WriteCapacityUnits:
+    ConstraintDescription: must be between 5 and 10000
+    Default: '10'
+    Description: Provisioned write throughput
+    MaxValue: '10000'
+    MinValue: '5'
+    Type: Number
+Resources:
+  LambdaOneRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonS3FullAccess
+    Type: AWS::IAM::Role
+  S3Bucket:
+    DeletionPolicy: Retain
+    Properties:
+      AccessControl: PublicRead
+      BucketName: cp-update-stack-s3
+      NotificationConfiguration:
+        LambdaConfigurations:
+        - Event: s3:ObjectCreated:*
+          Function:
+            Ref: LambdaOne
+      WebsiteConfiguration:
+        ErrorDocument: error.html
+        IndexDocument: index.html
+    Type: AWS::S3::Bucket
+  TableOfBooks:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: Title
+        AttributeType: S
+      - AttributeName: Category
+        AttributeType: S
+      - AttributeName: Language
+        AttributeType: S
+      GlobalSecondaryIndexes:
+      - IndexName: TitleIndex
+        KeySchema:
+        - AttributeName: Title
+          KeyType: HASH
+        Projection:
+          ProjectionType: KEYS_ONLY
+        ProvisionedThroughput:
+          ReadCapacityUnits:
+            Ref: ReadCapacityUnits
+          WriteCapacityUnits:
+            Ref: WriteCapacityUnits
+      KeySchema:
+      - AttributeName: Category
+        KeyType: HASH
+      - AttributeName: Title
+        KeyType: RANGE
+      LocalSecondaryIndexes:
+      - IndexName: LanguageIndex
+        KeySchema:
+        - AttributeName: Category
+          KeyType: HASH
+        - AttributeName: Language
+          KeyType: RANGE
+        Projection:
+          ProjectionType: KEYS_ONLY
+      ProvisionedThroughput:
+        ReadCapacityUnits:
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits:
+          Ref: WriteCapacityUnits
+    Type: AWS::DynamoDB::Table
+Transform:
+  Name: AWS::Serverless-2016-10-31
+  Resources:
+    LambdaOne:
+      Properties:
+        CodeUri: lambda/
+        Handler: myLambda.lambda_handler
+        Runtime: python2.7
+      Type: AWS::Serverless::Function
