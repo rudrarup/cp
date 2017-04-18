@@ -58,7 +58,7 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/AmazonS3FullAccess
     Type: AWS::IAM::Role
-  S3Bucket:
+  S3BucketUpdateStore:
     DeletionPolicy: Retain
     Properties:
       AccessControl: PublicRead
@@ -113,12 +113,11 @@ Resources:
         WriteCapacityUnits:
           Ref: WriteCapacityUnits
     Type: AWS::DynamoDB::Table
-Transform:
-  Name: AWS::Serverless-2016-10-31
-  Resources:
+Transforma: 'AWS::Serverless-2016-10-31'
+Resources:
     LambdaOne:
+      Type: 'AWS::Serverless::Function'
       Properties:
-        CodeUri: lambda/
         Handler: myLambda.lambda_handler
         Runtime: python2.7
-      Type: AWS::Serverless::Function
+        CodeUri: ./lambda
