@@ -18,7 +18,7 @@ Outputs:
       - ''
       - - https://
         - Fn::GetAtt:
-          - S3Bucket
+          - S3BucketUpdateStore
           - DomainName
   TableName:
     Description: Name of the newly created DynamoDB table
@@ -28,7 +28,7 @@ Outputs:
     Description: URL for website hosted on S3
     Value:
       Fn::GetAtt:
-      - S3Bucket
+      - S3BucketUpdateStore
       - WebsiteURL
 Parameters:
   ReadCapacityUnits:
