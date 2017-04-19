@@ -54,18 +54,6 @@ Resources:
       Handler: myLambda.lambda_handler
       Runtime: python2.7
       CodeUri: lambda
-  LambdaOneRole:
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Action: sts:AssumeRole
-          Effect: Allow
-          Principal:
-            Service: lambda.amazonaws.com
-        Version: '2012-10-17'
-      ManagedPolicyArns:
-      - arn:aws:iam::aws:policy/AmazonS3FullAccess
-    Type: AWS::IAM::Role
   S3BucketUpdateStore:
     DeletionPolicy: Retain
     Properties:
