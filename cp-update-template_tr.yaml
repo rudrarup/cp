@@ -113,7 +113,7 @@ Resources:
         WriteCapacityUnits:
           Ref: WriteCapacityUnits
     Type: AWS::DynamoDB::Table
-Transforma: 'AWS::Serverless-2016-10-31'
+Transform: 'AWS::Serverless-2016-10-31'
 Resources:
     LambdaOne:
       Type: 'AWS::Serverless::Function'
