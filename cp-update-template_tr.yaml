@@ -45,7 +45,7 @@ Parameters:
     MaxValue: '10000'
     MinValue: '5'
     Type: Number
-Resources:
+
 Transform: 'AWS::Serverless-2016-10-31'
 Resources:
   LambdaOne:
@@ -55,6 +55,7 @@ Resources:
       Runtime: python2.7
       CodeUri: lambda
   S3BucketUpdateStore:
+    DependsOn: LambdaOne
     DeletionPolicy: Retain
     Properties:
       AccessControl: PublicRead
