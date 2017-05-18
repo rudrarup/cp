@@ -54,6 +54,17 @@ Resources:
       Handler: myLambda.lambda_handler
       Runtime: python2.7
       CodeUri: lambda
+  LambdaTwoRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+         
   LambdaTwo:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -62,6 +73,10 @@ Resources:
       Code: 
         S3Bucket: update-poc-storage
         S3Key: dummylambda.zip
+      Role:
+        Fn::GetAtt: 
+        - LambdaTwoRole
+        - Arn
   LambdaTwoPermission:
     Type: "AWS::Lambda::Permission"
     Properties:
