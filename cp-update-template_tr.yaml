@@ -64,7 +64,7 @@ Resources:
         LambdaConfigurations:
         - Event: s3:ObjectCreated:*
           Function:
-            Fn:GetAtt: 
+            Fn::GetAtt: 
             - LambdaOne
       WebsiteConfiguration:
         ErrorDocument: error.html
