@@ -66,6 +66,7 @@ Resources:
           Function:
             Fn::GetAtt: 
             - LambdaOne
+            - Arn
       WebsiteConfiguration:
         ErrorDocument: error.html
         IndexDocument: index.html
