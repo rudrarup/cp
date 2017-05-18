@@ -59,7 +59,9 @@ Resources:
     Properties:
       Handler: myLambda.lambda_handler
       Runtime: python2.7
-      CodeUri: lambda
+      Code: 
+        S3Bucket: update-poc-storage
+        S3Key: dummylambda.zip
   LambdaTwoPermission:
     Type: "AWS::Lambda::Permission"
     Properties:
