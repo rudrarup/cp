@@ -88,7 +88,6 @@ Resources:
       Principal: s3.amazonaws.com
       SourceAccount:
         Ref: "AWS::AccountId"
-      SourceArn: cp-update-stack-s3
         
   S3BucketUpdateStore:
     DependsOn: LambdaTwo
