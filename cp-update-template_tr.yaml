@@ -54,8 +54,27 @@ Resources:
       Handler: myLambda.lambda_handler
       Runtime: python2.7
       CodeUri: lambda
+  LambdaTwo:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Handler: myLambda.lambda_handler
+      Runtime: python2.7
+      CodeUri: lambda
+  LambdaTwoPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: lambda:*
+      FunctionName:
+        Fn::GetAtt: 
+        - MyLambdaFunction
+        - Arn
+      Principal: s3.amazonaws.com
+      SourceAccount:
+        Ref: "AWS::AccountId"
+      SourceArn: cp-update-stack-s3
+        
   S3BucketUpdateStore:
-    DependsOn: LambdaOne
+    DependsOn: LambdaTwo
     DeletionPolicy: Retain
     Properties:
       AccessControl: PublicRead
@@ -65,7 +84,7 @@ Resources:
         - Event: s3:ObjectCreated:*
           Function:
             Fn::GetAtt: 
-            - LambdaOne
+            - LambdaTwo
             - Arn
       WebsiteConfiguration:
         ErrorDocument: error.html
