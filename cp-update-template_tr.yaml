@@ -93,7 +93,7 @@ Resources:
     DependsOn: LambdaTwo
     DeletionPolicy: Retain
     Properties:
-      AccessControl: PublicRead
+      AccessControl: Private
       BucketName: cp-update-stack-s3
       NotificationConfiguration:
         LambdaConfigurations:
