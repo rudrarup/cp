@@ -132,7 +132,7 @@
       "Properties": {
         "RestApiId": {"Ref": "GreetingApi"},
         "ParentId": {"Fn::GetAtt": ["GreetingApi", "RootResourceId"]},
-        "PathPart": "greeting"
+        "PathPart": "greetings"
       }
     },
 
