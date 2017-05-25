@@ -7,6 +7,7 @@ environment_variables:
 phases:
   install:
     commands:
+       - pip install cfn_flip
 #      - apt-get update -y
 #      - apt-get install -y maven
   Pre_build:
@@ -24,4 +25,5 @@ artifacts:
   files:
 #    - target/messageUtil-1.0.jar
     - new_cp-update-template_tr.yaml
+    - api-gw-template.json
   discard-paths: yes
