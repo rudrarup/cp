@@ -28,6 +28,9 @@ def lambda_handler(event, context):
     #object_path = m['packagename'] + "/version_info.txt"
     object_path =  "/version_info.txt"
     conn.upload_file("/tmp/latest_upload.txt", 'ixia-product-update', object_path)
+
+    print "NEW LAMBDA !!!"
+
     """
     try:
         table.put_item(
